@@ -10,6 +10,8 @@ import './FeedRoute.scss';
 const FeedRoute = () => {
   return (
     <div data-testid="feed-route">
+      Hello!
+      <Posts />
     </div>
   );
 };
