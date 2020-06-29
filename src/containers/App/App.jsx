@@ -9,6 +9,10 @@ import './App.scss';
 
 const App = () => (
   <div data-testid="app">
+    <BrowserRouter>
+      <Topbar />
+      <Routes />
+    </BrowserRouter>
   </div>
 );
 

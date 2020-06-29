@@ -9,7 +9,7 @@ import NewUserRoute from './NewUserRoute';
 const Routes = () => (
   <Switch>
     <Route exact path="/">
-
+      <FeedRoute />
     </Route>
 
     <Route exact path="/users">
