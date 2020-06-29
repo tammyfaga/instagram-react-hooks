@@ -20,7 +20,7 @@ const Topbar = () => (
           </Link>
         </button>
         <button className="topbar__icon">
-          <Link to='/newusers'>
+          <Link to='/newuser'>
             <i className="fas fa-user-plus"></i>
             <span>Nova Conta</span>
           </Link>
