@@ -11,6 +11,7 @@ const FeedRoute = () => {
   return (
     <div data-testid="feed-route">
       Hello!
+      <Stories />
       <Posts />
     </div>
   );
