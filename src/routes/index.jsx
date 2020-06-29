@@ -13,15 +13,15 @@ const Routes = () => (
     </Route>
 
     <Route exact path="/users">
-
+      <UsersRoute/>
     </Route>
 
     <Route path="/users/:username">
-
+      <ProfileRoute />
     </Route>
 
     <Route path="/newuser">
-
+      <NewUserRoute />
     </Route>
   </Switch>
 );
