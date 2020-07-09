@@ -5,6 +5,7 @@ import Story from '../../components/Story';
 import './Stories.scss';
 
 const Stories = ({ stories, getUserHandler }) => {
+  
   return (
     <React.Fragment>
       <section className="stories" data-testid="stories">
@@ -12,9 +13,7 @@ const Stories = ({ stories, getUserHandler }) => {
         </div>
       </section>
 
-      {(
-        <Story />
-        )}
+      {stories.map(story =>  <Story story={story} />  )}
     </React.Fragment>
   );
 };
