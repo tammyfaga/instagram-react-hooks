@@ -1,57 +1,68 @@
 import React, { useState, useEffect } from 'react';
 
 import Stories from '../../containers/Stories';
+import Posts from '../../containers/Posts';
 import Loading from '../../components/Loading';
 
-import Posts from '../../containers/Posts';
 
 import './FeedRoute.scss';
 
 const FeedRoute = () => {
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState({state: false, msg:'' });
-  const [data, setData] = useState({ stories: [], posts: []});
+  const [users, setUsers] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [usersFetched, setUsersFetched] = useState(0);
+  const [stories, setStories] = useState([]);
+
+  const getUsersPostById = (postUserId) => users.find(user => postUserId === user.id);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-  
-        const responseStories = await fetch(
-          'https://5e7d0266a917d70016684219.mockapi.io/api/v1/stories',
-        );
-  
-        const responsePosts = await fetch(
-          'https://5e7d0266a917d70016684219.mockapi.io/api/v1/users/1/posts',
-        );
-  
-        const dataStories = await responseStories.json();
-        const dataPosts = await responsePosts.json();
-
-        setData({stories: dataStories, posts: dataPosts});
-
-      } catch(error) {
-        console.error(error);
-        setError({state: true, msg: error})
-      }
-      setLoading(false);
-    }
-    fetchData();
+    fetch('https://5f070a2d9c5c2500163067dd.mockapi.io/api/v1/users')
+      .then((res) => res.json())
+      .then(data => setUsers(data));
   }, []);
 
-  console.log('data', data);
-  console.log('isLoading', isLoading);
-  console.log('error', error);
+  useEffect(() => {
+    if (usersFetched === users.length) {
+      return;
+    }
+
+    fetch(`https://5f070a2d9c5c2500163067dd.mockapi.io/api/v1/users/${users[usersFetched].id}/posts`)
+    .then((res) => res.json())
+    .then(data => {
+      setPosts([...posts, ...data]);
+      setUsersFetched(usersFetched + 1);
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users, usersFetched]);
+
+  useEffect(() => {
+    fetch('https://5f070a2d9c5c2500163067dd.mockapi.io/api/v1/stories')
+      .then((res) => res.json())
+      .then(data => {
+        setStories(data);
+      });
+  }, [users])
 
   return (
-    <>
-      {/* {error.state && <p>{error.msg}</p>} */}
-      {/* {isLoading && <Loading />} */}
-      <div data-testid="feed-route">
-        <Stories stories={data.stories} />
-        <Posts posts={data.posts} />
-      </div>
-    </>
+    <div data-testid="feed-route">
+      {(users.length > 0 && stories.length > 0) && (
+        <Stories
+          stories={stories}
+          getUserHandler={getUsersPostById}
+        />
+      )}
+
+      {users.length !== usersFetched
+        ? (<Loading />)
+        : (
+          <Posts
+            posts={posts}
+            getUserHandler={getUsersPostById}
+          />
+        )
+      }
+    </div>
   );
 };
 

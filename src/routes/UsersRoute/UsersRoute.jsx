@@ -8,7 +8,7 @@ const UsersRoute = () => {
   useEffect(() => {
     const fetchData = async () => {
       const responseUsers = await fetch(
-        'https://5e7d0266a917d70016684219.mockapi.io/api/v1/stories',
+        'https://5f070a2d9c5c2500163067dd.mockapi.io/api/v1/stories',
       );
 
       const dataUsers = await responseUsers.json();
